@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 :root {
-	--font-primary: "Inter", serif;
-	--color-primary: "black";
-	--color-secondary: "white";
-	--color-tertiary: "gray";
+  --font-primary: "Inter", serif;
+  --color-primary: "black";
+  --color-secondary: "white";
+  --color-tertiary: "gray";
 }
 
 *,
 *::before,
 *::after {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-	scroll-behavior: smooth;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
-	scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  scroll-snap-type: y mandatory;
 }
 
 body {
-	font-family: var(--font-primary);
-	line-height: 1.6;
-	color: var(--color-primary);
-	background-color: var(--color-secondary);
-	min-height: 100vh;
-	padding: 0;
-	margin: 0;
+  font-family: var(--font-primary);
+  line-height: 1.6;
+  color: var(--color-primary);
+  background-color: var(--color-secondary);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
 }

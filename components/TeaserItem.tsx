@@ -12,8 +12,8 @@ const TeaserItem = ({ title, image }: TeaserItemProps) => {
 				<Image
 					src={image}
 					alt={title}
-					width={300}
-					height={300}
+					width={400}
+					height={400}
 					className="object-cover rounded h-full w-full"
 				/>
 			</div>
