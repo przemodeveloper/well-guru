@@ -1,9 +1,17 @@
 import Link from "next/link";
 import { ROUTES } from "../routes/routes";
 
-const Navbar = () => {
+interface NavbarProps {
+	variant?: "light" | "dark";
+}
+
+const Navbar = ({ variant = "light" }: NavbarProps) => {
 	return (
-		<nav className="text-white p-6 z-[60] h-[80px] relative">
+		<nav
+			className={`text-${
+				variant === "light" ? "white" : "black"
+			} p-6 z-[60] h-[80px] relative`}
+		>
 			<div className="flex flex-wrap justify-end gap-9 h-full items-center">
 				<Link href={ROUTES.EVENTS} className="text-xl font-primary">
 					Wydarzenia
@@ -19,7 +27,11 @@ const Navbar = () => {
 				</Link>
 				<Link
 					href={ROUTES.ACCOUNT}
-					className="text-white border border-white rounded-lg px-3 py-2 text-center text-xl font-primary inline-block"
+					className={`text-${
+						variant === "light" ? "white" : "black"
+					} border border-${
+						variant === "light" ? "white" : "black"
+					} rounded-lg px-3 py-2 text-center text-xl font-primary inline-block`}
 				>
 					Konto
 				</Link>
