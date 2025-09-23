@@ -3,6 +3,7 @@ const ProductListSkeleton = () => {
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{Array.from({ length: 6 }).map((_, index) => (
 				<div
+					// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 					key={index}
 					className="bg-white rounded-lg shadow-sm overflow-hidden animate-pulse"
 				>
