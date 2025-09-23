@@ -8,15 +8,15 @@ interface ProductListProps {
 const ProductList = ({ events }: ProductListProps) => {
 	return (
 		<div className="flex flex-wrap justify-center gap-x-5 gap-y-10">
-			{events.map((item) => (
+			{events?.map((item) => (
 				<ProductCard
 					key={item.id}
-					image={item.image}
-					name={item.name}
-					price={item.price}
-					eventType={item.type}
-					entity={item.entity}
-					location={item.location}
+					image={item.image || ""}
+					name={item.name || ""}
+					price={item.price || 0}
+					eventType={item.type || ""}
+					entity={item.entity || ""}
+					location={item.location || ""}
 				/>
 			))}
 		</div>
