@@ -1,5 +1,4 @@
 import ProductCard from "./ProductCard";
-
 import Link from "next/link";
 import { ROUTES } from "@/routes/routes";
 import { productItems } from "@/mockData";
@@ -15,10 +14,10 @@ const Products = () => {
 					<ProductCard
 						key={item.id}
 						image={item.image}
-						title={item.title}
+						name={item.title}
 						price={item.price}
 						eventType={item.eventType}
-						organizer={item.organizer}
+						entity={item.organizer}
 						location={item.location}
 					/>
 				))}
