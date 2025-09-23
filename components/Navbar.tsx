@@ -24,7 +24,10 @@ const Navbar = ({ variant = "light" }: NavbarProps) => {
 		>
 			<div className={clsx(variant === "dark" && "flex justify-between")}>
 				{variant === "dark" && (
-					<Link href={ROUTES.HOME} className="text-xl font-primary text-black">
+					<Link
+						href={ROUTES.HOME}
+						className="text-3xl font-bold font-primary text-black"
+					>
 						Well Guru
 					</Link>
 				)}

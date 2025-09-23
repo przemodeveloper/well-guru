@@ -1,17 +1,21 @@
-import { productItems } from "@/mockData";
+import type { Event } from "@/models/events";
 import ProductCard from "./ProductCard";
 
-const ProductList = () => {
+interface ProductListProps {
+	events: Event[];
+}
+
+const ProductList = ({ events }: ProductListProps) => {
 	return (
 		<div className="flex flex-wrap justify-center gap-x-5 gap-y-10">
-			{productItems.map((item) => (
+			{events.map((item) => (
 				<ProductCard
 					key={item.id}
 					image={item.image}
-					title={item.title}
+					name={item.name}
 					price={item.price}
-					eventType={item.eventType}
-					organizer={item.organizer}
+					eventType={item.type}
+					entity={item.entity}
 					location={item.location}
 				/>
 			))}
