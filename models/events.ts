@@ -1,6 +1,6 @@
 export interface Event {
   id: string;
-  createdAt: string;
+  createdAt: Date;
   entity: string;
   price: number;
   name: string;
