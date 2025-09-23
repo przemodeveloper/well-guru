@@ -3,7 +3,8 @@ import { Suspense } from "react";
 import ProductListSkeleton from "@/components/ProductsListSkeleton";
 
 const EventsData = async () => {
-	const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/events`, {
+	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+	const res = await fetch(`${baseUrl}/api/events`, {
 		next: {
 			revalidate: 3600,
 		},
