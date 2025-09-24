@@ -24,8 +24,7 @@ const ProductCard = ({
         <Image
           src={image}
           alt={name}
-          width={400}
-          height={200}
+          fill
           className="object-cover rounded h-full w-full"
         />
         <p className="text-sm font-semibold text-black bg-white px-2 py-1 rounded-full absolute top-1 right-1">
