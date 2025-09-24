@@ -15,16 +15,23 @@ export async function GET(req: Request) {
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
-    return NextResponse.json(serializeBigInt({
-      data: events,
-      meta: {
-        total,
-        page,
-        pageSize,
-        totalPages: Math.ceil(total / pageSize),
-        hasNextPage: page * pageSize < total,
+    return NextResponse.json(
+      serializeBigInt({
+        data: events,
+        meta: {
+          total,
+          page,
+          pageSize,
+          totalPages: Math.ceil(total / pageSize),
+          hasNextPage: page * pageSize < total,
+        },
+      }),
+      {
+        headers: {
+          "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300",
+        },
       }
-    }));
+    );
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
   }
