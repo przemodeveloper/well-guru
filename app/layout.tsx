@@ -3,29 +3,31 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Footer from "@/components/Footer";
 import Provider from "@/providers/Provider";
+import NavbarWrapper from "@/components/NavbarWrapper";
 
 export const metadata: Metadata = {
-	title: "Well Guru",
-	description: "Well Guru",
+  title: "Well Guru",
+  description: "Well Guru",
 };
 
 const inter = Inter({
-	subsets: ["latin"],
+  subsets: ["latin"],
 });
 
 export default function RootLayout({
-	children,
+  children,
 }: Readonly<{
-	children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-	return (
-		<html lang="en">
-			<body className={inter.className}>
-				<Provider>{children}</Provider>
-				<div className="mt-20">
-					<Footer />
-				</div>
-			</body>
-		</html>
-	);
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <NavbarWrapper />
+        <Provider>{children}</Provider>
+        <div className="mt-20">
+          <Footer />
+        </div>
+      </body>
+    </html>
+  );
 }
