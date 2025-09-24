@@ -1,28 +1,28 @@
-import ProductList from "@/components/ProductList";
-import { Suspense } from "react";
-import ProductListSkeleton from "@/components/ProductsListSkeleton";
+import EventsClient from "@/components/EventsClient";
+import { fetchEvents } from "@/queries/events";
+import {
+	dehydrate,
+	HydrationBoundary,
+	QueryClient,
+} from "@tanstack/react-query";
 
-const EventsData = async () => {
-	const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-	const res = await fetch(`${baseUrl}/api/events`, {
-		next: {
-			revalidate: 3600,
-		},
+const EventsPage = async () => {
+	const queryClient = new QueryClient();
+
+	await queryClient.prefetchQuery({
+		queryKey: ["marketplace-events"],
+		queryFn: () => fetchEvents(1, 10),
 	});
-	const events = await res.json();
-	return <ProductList events={events} />;
-};
 
-const Events = async () => {
 	return (
-		<div className="container mx-auto">
-			<div className="mt-20">
-				<Suspense fallback={<ProductListSkeleton />}>
-					<EventsData />
-				</Suspense>
+		<HydrationBoundary state={dehydrate(queryClient)}>
+			<div className="container mx-auto">
+				<div className="mt-20">
+					<EventsClient />
+				</div>
 			</div>
-		</div>
+		</HydrationBoundary>
 	);
 };
 
-export default Events;
+export default EventsPage;
