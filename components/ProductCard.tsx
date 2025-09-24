@@ -19,7 +19,7 @@ const ProductCard = ({
   location,
 }: ProductCardProps) => {
   return (
-    <div className="px-2">
+    <div>
       <div className="w-full h-[250px] relative border border-gray-300 rounded mb-2">
         <Image
           src={image}
