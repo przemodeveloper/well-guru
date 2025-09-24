@@ -1,26 +1,36 @@
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 import { ROUTES } from "@/routes/routes";
-import { productItems } from "@/mockData";
+import type { Event } from "@/models/events";
 
-const Products = () => {
+interface ProductsProps {
+	events: Event[];
+}
+
+const Products = ({ events }: ProductsProps) => {
 	return (
 		<div>
 			<h2 className="text-3xl font-bold max-w-[20ch] mb-10">
 				Odkrywaj wydarzenia
 			</h2>
 			<div className="flex flex-wrap justify-center gap-x-5 gap-y-10 mb-20">
-				{productItems.map((item) => (
-					<ProductCard
-						key={item.id}
-						image={item.image}
-						name={item.title}
-						price={item.price}
-						eventType={item.eventType}
-						entity={item.organizer}
-						location={item.location}
-					/>
-				))}
+				{events.length > 0 ? (
+					events.map((event) => (
+						<ProductCard
+							key={event.id}
+							image={event.image || ""}
+							name={event.name || ""}
+							price={event.price || 0}
+							eventType={event.type || ""}
+							entity={event.entity || ""}
+							location={event.location || ""}
+						/>
+					))
+				) : (
+					<div className="text-center text-gray-500 py-10">
+						<p>Brak dostępnych wydarzeń w tej chwili.</p>
+					</div>
+				)}
 			</div>
 			<div className="flex justify-center">
 				<Link

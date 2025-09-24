@@ -1,8 +1,25 @@
-import TeaserItem from "./TeaserItem";
+import retreat from "@/public/photos/retreat.png";
+import event from "@/public/photos/event.png";
+import workshop from "@/public/photos/workshop.png";
 
+import TeaserItem from "./TeaserItem";
 import Link from "next/link";
 import { ROUTES } from "@/routes/routes";
-import { teaserItems } from "@/mockData";
+
+export const teaserItems = [
+	{
+		title: "Wyjazdy",
+		image: retreat.src,
+	},
+	{
+		title: "Eventy",
+		image: event.src,
+	},
+	{
+		title: "Warsztaty",
+		image: workshop.src,
+	},
+];
 
 const Teaser = () => {
 	return (
