@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useMemo } from "react";
 
-const EVENTS_PER_PAGE = 10;
+const EVENTS_PER_PAGE = 12;
 
 export const fetchEvents = async (page: number, pageSize: number) => {
 	const res = await axios.get(`/api/events?page=${page}&pageSize=${pageSize}`);

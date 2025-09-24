@@ -11,7 +11,7 @@ const EventsPage = async () => {
 
 	await queryClient.prefetchQuery({
 		queryKey: ["marketplace-events"],
-		queryFn: () => fetchEvents(1, 10),
+		queryFn: () => fetchEvents(1, 12),
 	});
 
 	return (
