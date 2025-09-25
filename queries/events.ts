@@ -5,24 +5,32 @@ import { useMemo } from "react";
 const EVENTS_PER_PAGE = 12;
 
 export const fetchEvents = async (page: number, pageSize: number) => {
-	const res = await axios.get(`/api/events?page=${page}&pageSize=${pageSize}`);
-	const data = await res.data;
-	return data;
+  const res = await axios.get(`/api/events?page=${page}&pageSize=${pageSize}`);
+  const data = await res.data;
+  return data;
 };
 
 const useEvents = () => {
-  const { fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, data, isLoading } = useInfiniteQuery({
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    data,
+    isLoading,
+  } = useInfiniteQuery({
     queryKey: ["marketplace-events"],
     queryFn: ({ pageParam = 1 }) => fetchEvents(pageParam, EVENTS_PER_PAGE),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.meta.hasNextPage) {
         return allPages.length + 1;
       }
-      return null
+      return null;
     },
     initialPageParam: 1,
+    staleTime: 1000 * 60 * 5,
+    refetchOnMount: false,
   });
-
 
   const eventsList = useMemo(() => {
     return data?.pages.flatMap((page) => page.data) || [];
