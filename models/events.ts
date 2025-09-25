@@ -6,5 +6,5 @@ export interface Event {
   name: string | null;
   location: string | null;
   image: string | null;
-  type: string | null;
+  type: "event" | "workshop" | "retreat";
 }

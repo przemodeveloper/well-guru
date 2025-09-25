@@ -6,7 +6,7 @@ interface ProductCardProps {
   name: string;
   entity: string;
   price: number;
-  eventType: string;
+  eventType: "event" | "workshop" | "retreat";
   location: string;
 }
 
