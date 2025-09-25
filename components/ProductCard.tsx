@@ -24,6 +24,7 @@ const ProductCard = ({
         <Image
           src={image}
           alt={name}
+          fetchPriority="high"
           fill
           className="object-cover rounded h-full w-full"
         />
