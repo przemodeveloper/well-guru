@@ -1,4 +1,4 @@
-import { ROUTES } from "@/routes/routes";
+import { FOOTER_ROUTES } from "@/routes/routes";
 import {
 	RiFacebookCircleFill,
 	RiInstagramFill,
@@ -20,29 +20,13 @@ const Footer = () => {
 				</div>
 
 				<ul className="flex flex-col gap-5">
-					<li>
-						<Link className="text-gray-500 font-semibold" href={ROUTES.ABOUT}>
-							O nas
-						</Link>
-					</li>
-					<li>
-						<Link className="text-gray-500 font-semibold" href={ROUTES.FAQ}>
-							FAQ
-						</Link>
-					</li>
-					<li>
-						<Link
-							className="text-gray-500 font-semibold"
-							href={ROUTES.ADD_EVENT}
-						>
-							Dodaj wydarzenie
-						</Link>
-					</li>
-					<li>
-						<Link className="text-gray-500 font-semibold" href={ROUTES.CONTACT}>
-							Kontakt
-						</Link>
-					</li>
+					{FOOTER_ROUTES.map((route) => (
+						<li key={route.href}>
+							<Link className="text-gray-500 font-semibold" href={route.href}>
+								{route.label}
+							</Link>
+						</li>
+					))}
 				</ul>
 			</div>
 

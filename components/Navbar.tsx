@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ROUTES } from "../routes/routes";
+import { NAVBAR_ROUTES, ROUTES } from "../routes/routes";
 import clsx from "clsx";
 
 interface NavbarProps {
@@ -31,26 +31,15 @@ const Navbar = ({ variant = "light" }: NavbarProps) => {
 						Well Guru
 					</Link>
 				)}
-				<div className="flex flex-wrap justify-end gap-9 h-full items-center">
-					<Link href={ROUTES.EVENTS} className="text-xl font-primary">
-						Wydarzenia
-					</Link>
-					<Link href={ROUTES.COMPANIES} className="text-xl font-primary">
-						Dla Firm
-					</Link>
-					<Link href={ROUTES.PARTNERS} className="text-xl font-primary">
-						Partnerzy
-					</Link>
-					<Link href={ROUTES.VOUCHER} className="text-xl font-primary">
-						Voucher
-					</Link>
-					<Link
-						href={ROUTES.ACCOUNT}
-						className={`${NAVBAR_THEME[variant].text} border ${NAVBAR_THEME[variant].border} rounded-lg px-3 py-2 text-center text-xl font-primary inline-block`}
-					>
-						Konto
-					</Link>
-				</div>
+				<ul className="flex flex-wrap justify-end gap-9 h-full items-center">
+					{NAVBAR_ROUTES.map((route) => (
+						<li key={route.href}>
+							<Link href={route.href} className="text-xl font-primary">
+								{route.label}
+							</Link>
+						</li>
+					))}
+				</ul>
 			</div>
 		</nav>
 	);
