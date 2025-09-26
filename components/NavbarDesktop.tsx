@@ -6,7 +6,7 @@ interface NavbarProps {
 	variant?: "light" | "dark";
 }
 
-const Navbar = ({ variant = "light" }: NavbarProps) => {
+const NavbarDesktop = ({ variant = "light" }: NavbarProps) => {
 	const NAVBAR_THEME = {
 		light: {
 			text: "text-white",
@@ -20,9 +20,13 @@ const Navbar = ({ variant = "light" }: NavbarProps) => {
 
 	return (
 		<nav
-			className={`${NAVBAR_THEME[variant].text} p-6 z-[60] h-[80px] relative`}
+			className={`${NAVBAR_THEME[variant].text} p-6 z-[60] h-[80px] relative hidden md:block`}
 		>
-			<div className={clsx(variant === "dark" && "flex justify-between")}>
+			<div
+				className={clsx(
+					variant === "dark" && "flex justify-between items-center"
+				)}
+			>
 				{variant === "dark" && (
 					<Link
 						href={ROUTES.HOME}
@@ -45,4 +49,4 @@ const Navbar = ({ variant = "light" }: NavbarProps) => {
 	);
 };
 
-export default Navbar;
+export default NavbarDesktop;
