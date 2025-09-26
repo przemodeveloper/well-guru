@@ -19,7 +19,11 @@ const NavbarWrapper = () => {
 		"/add-event",
 	];
 
-	const variant = darkThemeRoutes.includes(pathname) ? "dark" : "light";
+	const isDarkTheme = darkThemeRoutes.some((route) =>
+		pathname.startsWith(route)
+	);
+
+	const variant = isDarkTheme ? "dark" : "light";
 
 	return (
 		<>
