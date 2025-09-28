@@ -29,7 +29,7 @@ const useEvents = ({ filters }: { filters?: Record<string, string> } = {}) => {
     data,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ["marketplace-events"],
+    queryKey: ["marketplace-events", filters],
     queryFn: ({ pageParam = 1 }) =>
       fetchEvents(pageParam, EVENTS_PER_PAGE, { filters: filters ?? {} }),
     getNextPageParam: (lastPage, allPages) => {
