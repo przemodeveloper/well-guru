@@ -23,19 +23,19 @@ export async function GET(req: Request) {
     const where: Prisma.EventWhereInput = {};
 
     if (category) {
-      where["category"] = { in: category.split(",") };
+      where.category = { in: category.split(",") };
     }
     if (type) {
-      where["type"] = { in: type.split(",") };
+      where.type = { in: type.split(",") };
     }
     if (location) {
-      where["location"] = { in: location.split(",") };
+      where.location = { in: location.split(",") };
     }
     if (entity) {
-      where["entity"] = { in: entity.split(",") };
+      where.entity = { in: entity.split(",") };
     }
     if (search) {
-      where["name"] = { contains: search, mode: "insensitive" };
+      where.name = { contains: search, mode: "insensitive" };
     }
 
     if (startDate) {
