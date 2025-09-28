@@ -81,7 +81,7 @@ const EventFilters = () => {
   const selectedCategories = searchParams.get("category")?.split(",") ?? [];
 
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-wrap gap-4">
       <div className="flex gap-2 bg-gray-200 rounded-full p-1 w-fit">
         {eventTypesOptions.map((filter) => {
           const isSelected = selectedTypes.includes(filter.value);

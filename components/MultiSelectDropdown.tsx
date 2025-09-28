@@ -78,7 +78,7 @@ const MultiSelectDropdown = ({
                 <span className="text-gray-500">{placeholder}</span>
               ) : (
                 selectedOptions.map((option: Option) => (
-                  <span
+                  <div
                     key={option.id}
                     className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-800 rounded text-sm"
                   >
@@ -92,7 +92,7 @@ const MultiSelectDropdown = ({
                     >
                       <RiCloseLine className="w-3 h-3" />
                     </button>
-                  </span>
+                  </div>
                 ))
               )}
             </div>
