@@ -1,3 +1,4 @@
+import EventFilters from "@/components/EventFilters";
 import EventsClient from "@/components/EventsClient";
 import { fetchEvents } from "@/queries/events";
 import {
@@ -18,6 +19,10 @@ const EventsPage = async () => {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="container mx-auto">
         <div className="mt-20">
+          <h1 className="text-3xl font-bold mb-10">Odkrywaj wydarzenia</h1>
+          <div className="mb-10">
+            <EventFilters />
+          </div>
           <EventsClient />
         </div>
       </div>

@@ -4,13 +4,23 @@ import { useMemo } from "react";
 
 const EVENTS_PER_PAGE = 12;
 
-export const fetchEvents = async (page: number, pageSize: number) => {
-  const res = await axios.get(`/api/events?page=${page}&pageSize=${pageSize}`);
+export const fetchEvents = async (
+  page: number,
+  pageSize: number,
+  { filters }: { filters: Record<string, string> }
+) => {
+  const params = new URLSearchParams({
+    page: String(page),
+    pageSize: String(pageSize),
+    ...filters,
+  });
+
+  const res = await axios.get(`/api/events?${params.toString()}`);
   const data = await res.data;
   return data;
 };
 
-const useEvents = () => {
+const useEvents = ({ filters }: { filters?: Record<string, string> } = {}) => {
   const {
     fetchNextPage,
     hasNextPage,
@@ -20,7 +30,8 @@ const useEvents = () => {
     isLoading,
   } = useInfiniteQuery({
     queryKey: ["marketplace-events"],
-    queryFn: ({ pageParam = 1 }) => fetchEvents(pageParam, EVENTS_PER_PAGE),
+    queryFn: ({ pageParam = 1 }) =>
+      fetchEvents(pageParam, EVENTS_PER_PAGE, { filters: filters ?? {} }),
     getNextPageParam: (lastPage, allPages) => {
       if (lastPage.meta.hasNextPage) {
         return allPages.length + 1;

@@ -8,6 +8,9 @@ CREATE TABLE "events" (
     "location" TEXT DEFAULT '',
     "image" VARCHAR DEFAULT '',
     "type" TEXT DEFAULT '',
+    "category" TEXT DEFAULT '',
+    "startDate" DATE,
+    "endDate" DATE,
 
     CONSTRAINT "events_pkey" PRIMARY KEY ("id")
 );
