@@ -60,7 +60,6 @@ const EventFilters = () => {
   const searchParams = useSearchParams();
 
   const handleSelectFilter = (filterType: string, value: string) => {
-    console.log(filterType, value);
     const params = new URLSearchParams(searchParams.toString());
 
     const currentParams = params.get(filterType)?.split(",") || [];
