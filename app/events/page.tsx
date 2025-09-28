@@ -6,6 +6,7 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { Suspense } from "react";
 
 const EventsPage = async () => {
   const queryClient = new QueryClient();
@@ -18,13 +19,15 @@ const EventsPage = async () => {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="container mx-auto">
-        <div className="mt-20">
-          <h1 className="text-3xl font-bold mb-10">Odkrywaj wydarzenia</h1>
-          <div className="mb-10">
-            <EventFilters />
+        <Suspense>
+          <div className="mt-20">
+            <h1 className="text-3xl font-bold mb-10">Odkrywaj wydarzenia</h1>
+            <div className="mb-10">
+              <EventFilters />
+            </div>
+            <EventsClient />
           </div>
-          <EventsClient />
-        </div>
+        </Suspense>
       </div>
     </HydrationBoundary>
   );

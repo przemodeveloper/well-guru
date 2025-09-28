@@ -12,6 +12,9 @@ const EventsClient = () => {
     ...(searchParams.get("type")
       ? { type: searchParams.get("type") || "" }
       : {}),
+    ...(searchParams.get("category")
+      ? { category: searchParams.get("category") || "" }
+      : {}),
   };
 
   const { fetchNextPage, hasNextPage, events, isLoading } = useEvents({
