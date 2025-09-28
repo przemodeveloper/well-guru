@@ -14,7 +14,7 @@ const EventsClient = () => {
       : {}),
   };
 
-  const { fetchNextPage, hasNextPage, data, isLoading } = useEvents({
+  const { fetchNextPage, hasNextPage, events, isLoading } = useEvents({
     filters,
   });
 
@@ -28,7 +28,7 @@ const EventsClient = () => {
 
   return (
     <InfiniteScroll
-      dataLength={data?.length}
+      dataLength={events?.length}
       next={fetchNextPage}
       hasMore={hasNextPage}
       loader={
@@ -37,7 +37,7 @@ const EventsClient = () => {
         </div>
       }
     >
-      <ProductList events={data} />
+      <ProductList events={events} />
     </InfiniteScroll>
   );
 };

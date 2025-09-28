@@ -16,7 +16,7 @@ export const fetchEvents = async (
   });
 
   const res = await axios.get(`/api/events?${params.toString()}`);
-  const data = await res.data;
+  const data = res.data;
   return data;
 };
 
@@ -29,7 +29,7 @@ const useEvents = ({ filters }: { filters?: Record<string, string> } = {}) => {
     data,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: ["marketplace-events", filters],
+    queryKey: ["marketplace-events", JSON.stringify(filters ?? {})],
     queryFn: ({ pageParam = 1 }) =>
       fetchEvents(pageParam, EVENTS_PER_PAGE, { filters: filters ?? {} }),
     getNextPageParam: (lastPage, allPages) => {
@@ -52,7 +52,7 @@ const useEvents = ({ filters }: { filters?: Record<string, string> } = {}) => {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    data: eventsList,
+    events: eventsList,
     isLoading,
   };
 };
