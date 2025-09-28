@@ -7,7 +7,7 @@ const EVENTS_PER_PAGE = 12;
 export const fetchEvents = async (
   page: number,
   pageSize: number,
-  { filters }: { filters: Record<string, string> }
+  { filters }: { filters?: Record<string, string> } = {}
 ) => {
   const params = new URLSearchParams({
     page: String(page),
