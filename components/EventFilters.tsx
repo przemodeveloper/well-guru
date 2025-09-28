@@ -50,7 +50,7 @@ const EventFilters = () => {
             key={filter.value}
             onClick={() => handleSelectFilter(filter.value)}
             className={clsx(
-              "px-12 py-1 rounded-full text-sm font-bold bg-gray-200 cursor-pointer",
+              "px-6 md:px-8 lg:px-12 py-1 rounded-full text-sm font-bold bg-gray-200 cursor-pointer",
               isSelected && "bg-white text-black"
             )}
           >
