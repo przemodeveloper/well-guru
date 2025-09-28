@@ -78,7 +78,6 @@ const EventFilters = () => {
   };
 
   const selectedTypes = searchParams.get("type")?.split(",") ?? [];
-  const selectedCategories = searchParams.get("category")?.split(",") ?? [];
 
   return (
     <div className="flex flex-wrap gap-4">
