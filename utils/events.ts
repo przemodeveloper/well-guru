@@ -39,3 +39,22 @@ export async function getEventsFromDB(page: number = 1, pageSize: number = 6) {
     };
   }
 }
+
+export async function getDropdownLocationsFromDB() {
+  try {
+    const locations = await prisma.event.findMany({
+      select: {
+        location: true,
+      },
+      distinct: ["location"],
+    });
+    return locations;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred.";
+    return {
+      errorMessage: errorMessage,
+      data: [],
+    };
+  }
+}
