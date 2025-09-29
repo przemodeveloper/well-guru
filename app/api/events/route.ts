@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/utils/prisma";
 import { serializeBigInt } from "@/utils/serialize";
 import { Decimal } from "@prisma/client/runtime/library";
-import { Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 
 export async function GET(req: Request) {
   try {
@@ -64,7 +64,7 @@ export async function GET(req: Request) {
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
-    
+
     return NextResponse.json(
       serializeBigInt({
         data: events,
