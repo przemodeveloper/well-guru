@@ -9,8 +9,8 @@ export async function getEventsFromDB(page: number = 1, pageSize: number = 6) {
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: {
-        created_at: 'desc'
-      }
+        created_at: "desc",
+      },
     });
 
     return serializeBigInt({
@@ -21,10 +21,13 @@ export async function getEventsFromDB(page: number = 1, pageSize: number = 6) {
         pageSize,
         totalPages: Math.ceil(total / pageSize),
         hasNextPage: page * pageSize < total,
-      }
+      },
     });
-  } catch {
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred.";
     return {
+      errorMessage: errorMessage,
       data: [],
       meta: {
         total: 0,
@@ -32,7 +35,26 @@ export async function getEventsFromDB(page: number = 1, pageSize: number = 6) {
         pageSize: 6,
         totalPages: 0,
         hasNextPage: false,
-      }
+      },
+    };
+  }
+}
+
+export async function getDropdownLocationsFromDB() {
+  try {
+    const locations = await prisma.event.findMany({
+      select: {
+        location: true,
+      },
+      distinct: ["location"],
+    });
+    return locations;
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unknown error occurred.";
+    return {
+      errorMessage: errorMessage,
+      data: [],
     };
   }
 }

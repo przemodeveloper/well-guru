@@ -1,8 +1,8 @@
 import { RiArrowDownLine, RiCloseLine } from "@remixicon/react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 
-interface Option {
+export interface Option {
   id: number;
   label: string;
   value: string;
@@ -11,13 +11,15 @@ interface Option {
 interface MultiSelectDropdownProps {
   options: { id: number; label: string; value: string }[];
   placeholder?: string;
-  onChange?: (option: Option) => void;
+  onChange?: (options: Option[]) => void;
+  value: string[];
 }
 
 const MultiSelectDropdown = ({
   options = [],
-  placeholder = "Wybierz kategorie...",
+  placeholder = "",
   onChange,
+  value,
 }: MultiSelectDropdownProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
@@ -43,7 +45,7 @@ const MultiSelectDropdown = ({
 
     setSelectedOptions(newSelection);
     if (onChange) {
-      onChange(option);
+      onChange(newSelection);
     }
   };
 
@@ -53,16 +55,23 @@ const MultiSelectDropdown = ({
     );
     setSelectedOptions(newSelection);
     if (onChange) {
-      onChange(optionToRemove);
+      onChange(newSelection);
     }
   };
 
   const handleClearAll = () => {
     setSelectedOptions([]);
     if (onChange) {
-      onChange({ id: 0, label: "", value: "" });
+      onChange([]);
     }
   };
+
+  useEffect(() => {
+    if (value) {
+      const newSelected = options.filter((opt) => value.includes(opt.value));
+      setSelectedOptions(newSelected);
+    }
+  }, [value, options]);
 
   return (
     <div className="w-full max-w-md">
