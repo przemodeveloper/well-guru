@@ -64,6 +64,7 @@ export async function GET(req: Request) {
       skip: (page - 1) * pageSize,
       take: pageSize,
     });
+    
     return NextResponse.json(
       serializeBigInt({
         data: events,
