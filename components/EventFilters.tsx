@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import MultiSelectDropdown, { Option } from "./MultiSelectDropdown";
+import MultiSelectDropdown, { type Option } from "./MultiSelectDropdown";
 import { useLocationsDropdown } from "@/queries/dropdowns";
 import { useMemo } from "react";
 
