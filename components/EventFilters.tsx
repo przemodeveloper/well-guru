@@ -2,94 +2,114 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import MultiSelectDropdown, { Option } from "./MultiSelectDropdown";
+import { useLocationsDropdown } from "@/queries/dropdowns";
+import { useMemo } from "react";
 
 const eventTypesOptions = [
-  {
-    id: 1,
-    label: "Event",
-    value: "event",
-  },
-  {
-    id: 2,
-    label: "Workshop",
-    value: "workshop",
-  },
-  {
-    id: 3,
-    label: "Retreat",
-    value: "retreat",
-  },
+	{
+		id: 1,
+		label: "Event",
+		value: "event",
+	},
+	{
+		id: 2,
+		label: "Workshop",
+		value: "workshop",
+	},
+	{
+		id: 3,
+		label: "Retreat",
+		value: "retreat",
+	},
 ];
 
 const eventCategoriesOptions = [
-  {
-    id: 1,
-    label: "Sztuka",
-    value: "art",
-  },
-  {
-    id: 2,
-    label: "Muzyka",
-    value: "music",
-  },
-  {
-    id: 3,
-    label: "Rozwój osobisty",
-    value: "selfDevelopment",
-  },
-  {
-    id: 4,
-    label: "Relacje",
-    value: "relationships",
-  },
-  {
-    id: 5,
-    label: "Yoga",
-    value: "yoga",
-  },
-  {
-    id: 6,
-    label: "Surfing",
-    value: "surfing",
-  },
+	{
+		id: 1,
+		label: "Sztuka",
+		value: "art",
+	},
+	{
+		id: 2,
+		label: "Muzyka",
+		value: "music",
+	},
+	{
+		id: 3,
+		label: "Rozwój osobisty",
+		value: "selfDevelopment",
+	},
+	{
+		id: 4,
+		label: "Relacje",
+		value: "relationships",
+	},
+	{
+		id: 5,
+		label: "Yoga",
+		value: "yoga",
+	},
+	{
+		id: 6,
+		label: "Surfing",
+		value: "surfing",
+	},
 ];
 
 const EventFilters = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const { data: locations } = useLocationsDropdown();
 
-  const handleSelectFilter = (filterType: string, options: Option[]) => {
-    const params = new URLSearchParams(searchParams.toString());
-    const selectedOption = options.map((option) => option.value);
+	const locationOptions = useMemo(
+		() =>
+			locations?.map((location: { id: number; name: string }) => ({
+				id: location.id,
+				label: location.name,
+				value: location.name,
+			})),
+		[locations]
+	);
 
-    if (selectedOption.length === 0) {
-      params.delete(filterType);
-    } else {
-      params.set(filterType, selectedOption.join(","));
-    }
+	const handleSelectFilter = (filterType: string, options: Option[]) => {
+		const params = new URLSearchParams(searchParams.toString());
+		const selectedOption = options.map((option) => option.value);
 
-    router.replace(`?${params.toString()}`);
-  };
+		if (selectedOption.length === 0) {
+			params.delete(filterType);
+		} else {
+			params.set(filterType, selectedOption.join(","));
+		}
 
-  const selectedTypes = searchParams.get("type")?.split(",") ?? [];
-  const selectedCategories = searchParams.get("category")?.split(",") ?? [];
+		router.replace(`?${params.toString()}`);
+	};
 
-  return (
-    <div className="flex flex-wrap gap-4">
-      <MultiSelectDropdown
-        placeholder="Wybierz typ..."
-        options={eventTypesOptions}
-        onChange={(options) => handleSelectFilter("type", options)}
-        value={selectedTypes}
-      />
-      <MultiSelectDropdown
-        placeholder="Wybierz kategorie..."
-        options={eventCategoriesOptions}
-        onChange={(options) => handleSelectFilter("category", options)}
-        value={selectedCategories}
-      />
-    </div>
-  );
+	const selectedTypes = searchParams.get("type")?.split(",") ?? [];
+	const selectedCategories = searchParams.get("category")?.split(",") ?? [];
+	const selectedLocations = searchParams.get("location")?.split(",") ?? [];
+
+	return (
+		<div className="flex flex-wrap gap-4">
+			<MultiSelectDropdown
+				placeholder="Wybierz typ..."
+				options={eventTypesOptions}
+				onChange={(options) => handleSelectFilter("type", options)}
+				value={selectedTypes}
+			/>
+			<MultiSelectDropdown
+				placeholder="Wybierz kategorie..."
+				options={eventCategoriesOptions}
+				onChange={(options) => handleSelectFilter("category", options)}
+				value={selectedCategories}
+			/>
+			<MultiSelectDropdown
+				placeholder="Wybierz lokalizację..."
+				options={locationOptions}
+				onChange={(options) => handleSelectFilter("location", options)}
+				value={selectedLocations}
+			/>
+		</div>
+	);
 };
 
 export default EventFilters;

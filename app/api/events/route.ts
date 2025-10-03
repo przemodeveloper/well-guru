@@ -82,7 +82,11 @@ export async function GET(req: Request) {
         },
       }
     );
-  } catch (error) {
-    return NextResponse.json({ error: error }, { status: 500 });
+  } catch (error: unknown) {
+    let errorMessage = "An unknown error occurred.";
+    if (error instanceof Error) {
+      errorMessage = error.message;
+    }
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
