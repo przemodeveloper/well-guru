@@ -7,47 +7,53 @@ import ProductListSkeleton from "./ProductsListSkeleton";
 import { useSearchParams } from "next/navigation";
 
 const EventsClient = () => {
-	const searchParams = useSearchParams();
+  const searchParams = useSearchParams();
 
-	const filters = ["type", "category", "location"].reduce((acc, key) => {
-		const value = searchParams.get(key);
-		if (value) acc[key] = value;
-		return acc;
-	}, {} as Record<string, string>);
+  const filters = [
+    "type",
+    "category",
+    "location",
+    "priceMin",
+    "priceMax",
+  ].reduce((acc, key) => {
+    const value = searchParams.get(key);
+    if (value) acc[key] = value;
+    return acc;
+  }, {} as Record<string, string>);
 
-	const { fetchNextPage, hasNextPage, events, isLoading } = useEvents({
-		filters,
-	});
+  const { fetchNextPage, hasNextPage, events, isLoading } = useEvents({
+    filters,
+  });
 
-	if (isLoading) {
-		return (
-			<div className="mt-20">
-				<ProductListSkeleton length={6} />
-			</div>
-		);
-	}
+  if (isLoading) {
+    return (
+      <div className="mt-20">
+        <ProductListSkeleton length={6} />
+      </div>
+    );
+  }
 
-	if (!isLoading && events?.length === 0) {
-		return (
-			<div className="mt-20 text-center text-gray-500">No events found.</div>
-		);
-	}
+  if (!isLoading && events?.length === 0) {
+    return (
+      <div className="mt-20 text-center text-gray-500">No events found.</div>
+    );
+  }
 
-	return (
-		<InfiniteScroll
-			key={JSON.stringify(filters)}
-			dataLength={events?.length}
-			next={fetchNextPage}
-			hasMore={hasNextPage}
-			loader={
-				<div className="mt-20">
-					<ProductListSkeleton length={3} />
-				</div>
-			}
-		>
-			<ProductList events={events ?? []} />
-		</InfiniteScroll>
-	);
+  return (
+    <InfiniteScroll
+      key={JSON.stringify(filters)}
+      dataLength={events?.length}
+      next={fetchNextPage}
+      hasMore={hasNextPage}
+      loader={
+        <div className="mt-20">
+          <ProductListSkeleton length={3} />
+        </div>
+      }
+    >
+      <ProductList events={events ?? []} />
+    </InfiniteScroll>
+  );
 };
 
 export default EventsClient;
