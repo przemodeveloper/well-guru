@@ -121,30 +121,30 @@ const EventFilters = () => {
   return (
     <div className="flex flex-wrap gap-4">
       <MultiSelectDropdown
-        placeholder="Wybierz typ..."
+        placeholder="Wszystkie typy"
         options={eventTypesOptions}
         onChange={(options) => handleSelectFilter("type", options)}
         value={selectedTypes}
       />
       <MultiSelectDropdown
-        placeholder="Wybierz kategorie..."
+        placeholder="Wszystkie kategorie"
         options={eventCategoriesOptions}
         onChange={(options) => handleSelectFilter("category", options)}
         value={selectedCategories}
       />
       <MultiSelectDropdown
-        placeholder="Wybierz lokalizację..."
+        placeholder="Wszystkie lokalizacje"
         options={locationOptions}
         onChange={(options) => handleSelectFilter("location", options)}
         value={selectedLocations}
       />
 
       <div>
-        <span className="mr-3">Cena</span>
+        <span className="mr-3 font-semibold">Cena</span>
         <input
           type="number"
           placeholder="Od"
-          className="border p-2 rounded w-24 mr-2"
+          className="border border-2 border-gray-300 p-2 rounded w-24 mr-2"
           min={0}
           value={priceMin}
           onChange={(e) => handlePriceChange("priceMin", e.target.value)}
@@ -152,7 +152,7 @@ const EventFilters = () => {
         <input
           type="number"
           placeholder="Do"
-          className="border p-2 rounded w-24"
+          className="border border-2 border-gray-300 p-2 rounded w-24"
           value={priceMax}
           onChange={(e) => handlePriceChange("priceMax", e.target.value)}
         />
