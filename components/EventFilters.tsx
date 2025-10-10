@@ -99,8 +99,8 @@ const EventFilters = () => {
 				onChange={(options) => handleSelectFilter("location", options)}
 				value={selectedLocations}
 			/>
-			<PriceFilter />
 			<DatePicker />
+			<PriceFilter />
 		</div>
 	);
 };

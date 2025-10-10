@@ -81,7 +81,7 @@ const DatePicker = () => {
 						/>
 					</div>
 				) : (
-					"Data"
+					<span className="font-semibold">Data</span>
 				)}
 			</button>
 			{showDatePicker && (
