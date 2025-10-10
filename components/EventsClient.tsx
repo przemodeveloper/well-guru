@@ -15,6 +15,8 @@ const EventsClient = () => {
     "location",
     "priceMin",
     "priceMax",
+    "startDate",
+    "endDate",
   ].reduce((acc, key) => {
     const value = searchParams.get(key);
     if (value) acc[key] = value;
