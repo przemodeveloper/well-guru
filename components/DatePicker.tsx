@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject, startTransition, useEffect, useRef, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { pl } from "react-day-picker/locale";
@@ -22,20 +22,24 @@ const DatePicker = () => {
 
 	const handleSelectDate = (range: DateRange | undefined) => {
 		if (range?.from && range.to) {
-			const params = new URLSearchParams(searchParams.toString());
 			setSelectedDate(range);
-			params.set("startDate", range.from.toISOString());
-			params.set("endDate", range.to.toISOString());
-			router.replace(`?${params.toString()}`);
+
+			startTransition(() => {
+				const params = new URLSearchParams(searchParams.toString());
+				if (range.from) params.set("startDate", range.from.toISOString());
+				if (range.to) params.set("endDate", range.to.toISOString());
+				router.replace(`?${params.toString()}`);
+			});
 		}
 	};
 
-	const handleResetDate = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.stopPropagation();
-		const params = new URLSearchParams(searchParams.toString());
-		params.delete("startDate");
-		params.delete("endDate");
-		router.replace(`?${params.toString()}`);
+	const handleResetDate = () => {
+		startTransition(() => {
+			const params = new URLSearchParams(searchParams.toString());
+			params.delete("startDate");
+			params.delete("endDate");
+			router.replace(`?${params.toString()}`);
+		});
 	};
 
 	useEffect(() => {
@@ -53,33 +57,35 @@ const DatePicker = () => {
 	}, [searchParams]);
 
 	return (
-		<div className="relative">
+		<div className="relative" ref={dayPickerRef}>
 			<button
+				title="Wybierz datę"
+				aria-expanded={showDatePicker}
+				aria-haspopup="dialog"
 				className="border border-2 border-gray-300 p-2 rounded cursor-pointer hover:border-gray-400 focus:border-black focus:ring-black"
 				onClick={() => setShowDatePicker((prev) => !prev)}
 			>
 				{selectedDate ? (
 					<div className="flex items-center gap-2">
 						<span>
-							{selectedDate.from?.toLocaleDateString()} -
-							{selectedDate.to?.toLocaleDateString()}
+							{selectedDate.from?.toLocaleDateString("pl-PL")} -
+							{selectedDate.to?.toLocaleDateString("pl-PL")}
 						</span>
-						<button
-							onClick={handleResetDate}
-							className="border rounded-full p-1 hover:bg-gray-100 focus:border-black focus:ring-black cursor-pointer"
-						>
-							<RiCloseLine size={12} />
-						</button>
+						<RiCloseLine
+							size={14}
+							className="border rounded-full"
+							onClick={(e) => {
+								e.stopPropagation();
+								handleResetDate();
+							}}
+						/>
 					</div>
 				) : (
 					"Data"
 				)}
 			</button>
 			{showDatePicker && (
-				<div
-					ref={dayPickerRef}
-					className="absolute top-full mt-2 z-10 border-2 border-gray-300 rounded-lg p-4 bg-white shadow-lg"
-				>
+				<div className="absolute top-full mt-2 z-10 border-2 border-gray-300 rounded-lg p-4 bg-white shadow-lg w-max sm:w-auto">
 					<DayPicker
 						mode="range"
 						classNames={{
