@@ -1,5 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { pl } from "react-day-picker/locale";
@@ -22,6 +22,20 @@ const DatePicker = () => {
       router.replace(`?${params.toString()}`);
     }
   };
+
+  useEffect(() => {
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
+
+    if (startDate && endDate) {
+      setSelectedDate({
+        from: new Date(startDate),
+        to: new Date(endDate),
+      });
+    } else {
+      setSelectedDate(undefined);
+    }
+  }, [searchParams]);
 
   return (
     <div>
