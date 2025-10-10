@@ -1,62 +1,103 @@
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { DateRange, DayPicker } from "react-day-picker";
 import "react-day-picker/style.css";
 import { pl } from "react-day-picker/locale";
+import { useOnClickOutside } from "usehooks-ts";
+import { RiCloseLine } from "@remixicon/react";
 
 const DatePicker = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+	const router = useRouter();
+	const searchParams = useSearchParams();
 
-  const [selectedDate, setSelectedDate] = useState<DateRange | undefined>(
-    undefined
-  );
-  const [showDatePicker, setShowDatePicker] = useState(false);
+	const [selectedDate, setSelectedDate] = useState<DateRange | undefined>(
+		undefined
+	);
+	const [showDatePicker, setShowDatePicker] = useState(false);
+	const dayPickerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleSelectDate = (range: DateRange | undefined) => {
-    if (range?.from && range.to) {
-      const params = new URLSearchParams(searchParams.toString());
-      setSelectedDate(range);
-      params.set("startDate", range.from.toISOString());
-      params.set("endDate", range.to.toISOString());
-      router.replace(`?${params.toString()}`);
-    }
-  };
+	useOnClickOutside(dayPickerRef as RefObject<HTMLElement>, () =>
+		setShowDatePicker(false)
+	);
 
-  useEffect(() => {
-    const startDate = searchParams.get("startDate");
-    const endDate = searchParams.get("endDate");
+	const handleSelectDate = (range: DateRange | undefined) => {
+		if (range?.from && range.to) {
+			const params = new URLSearchParams(searchParams.toString());
+			setSelectedDate(range);
+			params.set("startDate", range.from.toISOString());
+			params.set("endDate", range.to.toISOString());
+			router.replace(`?${params.toString()}`);
+		}
+	};
 
-    if (startDate && endDate) {
-      setSelectedDate({
-        from: new Date(startDate),
-        to: new Date(endDate),
-      });
-    } else {
-      setSelectedDate(undefined);
-    }
-  }, [searchParams]);
+	const handleResetDate = (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.stopPropagation();
+		const params = new URLSearchParams(searchParams.toString());
+		params.delete("startDate");
+		params.delete("endDate");
+		router.replace(`?${params.toString()}`);
+	};
 
-  return (
-    <div>
-      <button
-        className="border border-2 border-gray-300 p-2 rounded cursor-pointer hover:border-gray-400 focus:border-black focus:ring-black"
-        onClick={() => setShowDatePicker((prev) => !prev)}
-      >
-        {selectedDate
-          ? `${selectedDate.from?.toLocaleDateString()} - ${selectedDate.to?.toLocaleDateString()}`
-          : "Data"}
-      </button>
-      {showDatePicker && (
-        <DayPicker
-          mode="range"
-          locale={pl}
-          selected={selectedDate}
-          onSelect={handleSelectDate}
-        />
-      )}
-    </div>
-  );
+	useEffect(() => {
+		const startDate = searchParams.get("startDate");
+		const endDate = searchParams.get("endDate");
+
+		if (startDate && endDate) {
+			setSelectedDate({
+				from: new Date(startDate),
+				to: new Date(endDate),
+			});
+		} else {
+			setSelectedDate(undefined);
+		}
+	}, [searchParams]);
+
+	return (
+		<div className="relative">
+			<button
+				className="border border-2 border-gray-300 p-2 rounded cursor-pointer hover:border-gray-400 focus:border-black focus:ring-black"
+				onClick={() => setShowDatePicker((prev) => !prev)}
+			>
+				{selectedDate ? (
+					<div className="flex items-center gap-2">
+						<span>
+							{selectedDate.from?.toLocaleDateString()} -
+							{selectedDate.to?.toLocaleDateString()}
+						</span>
+						<button
+							onClick={handleResetDate}
+							className="border rounded-full p-1 hover:bg-gray-100 focus:border-black focus:ring-black cursor-pointer"
+						>
+							<RiCloseLine size={12} />
+						</button>
+					</div>
+				) : (
+					"Data"
+				)}
+			</button>
+			{showDatePicker && (
+				<div
+					ref={dayPickerRef}
+					className="absolute top-full mt-2 z-10 border-2 border-gray-300 rounded-lg p-4 bg-white shadow-lg"
+				>
+					<DayPicker
+						mode="range"
+						classNames={{
+							chevron: "text-black",
+							range_start: "bg-black",
+							range_end: "bg-black",
+							selected: "bg-black text-white",
+							today: "bg-gray-300",
+							range_middle: "bg-gray-300",
+						}}
+						locale={pl}
+						selected={selectedDate}
+						onSelect={handleSelectDate}
+					/>
+				</div>
+			)}
+		</div>
+	);
 };
 
 export default DatePicker;
