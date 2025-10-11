@@ -69,6 +69,7 @@ const MultiSelectDropdown = ({
     if (onChange) {
       onChange([]);
     }
+    setIsOpen(false);
   };
 
   useEffect(() => {

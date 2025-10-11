@@ -6,8 +6,8 @@ import PriceFilter from "./PriceFilter";
 import DatePicker from "./DatePicker";
 import { useFilters } from "@/hooks/useFilters";
 import { DateRange } from "react-day-picker";
-import { useEffect, useState } from "react";
 import { formatDate } from "@/utils/date";
+import { useMemo } from "react";
 
 const eventTypesOptions = [
   {
@@ -65,21 +65,6 @@ const EventFilters = () => {
 
   const { data: locationOptions } = useLocationsDropdown();
 
-  const [selectedDate, setSelectedDate] = useState<DateRange | undefined>(
-    () => {
-      const startDate = getParam("startDate");
-      const endDate = getParam("endDate");
-
-      if (startDate && endDate) {
-        return {
-          from: new Date(startDate),
-          to: new Date(endDate),
-        };
-      }
-      return undefined;
-    }
-  );
-
   const handleSelectFilter = (filterType: string, options: Option[]) => {
     const selectedOption = options.map((option) => option.value);
     setParams({ [filterType]: selectedOption });
@@ -87,21 +72,46 @@ const EventFilters = () => {
 
   const handleSelectDate = (range: DateRange | undefined) => {
     if (range?.from && range.to) {
-      setSelectedDate(range);
-
       setParams({
         startDate: formatDate(range.from),
         endDate: formatDate(range.to),
       });
     } else {
       deleteParams(["startDate", "endDate"]);
-      setSelectedDate(undefined);
     }
   };
 
-  const selectedTypes = getParam("type")?.split(",") ?? [];
-  const selectedCategories = getParam("category")?.split(",") ?? [];
-  const selectedLocations = getParam("location")?.split(",") ?? [];
+  const {
+    selectedTypes,
+    selectedCategories,
+    selectedLocations,
+    selectedDates,
+  } = useMemo(() => {
+    const typeParam = getParam("type");
+    const categoryParam = getParam("category");
+    const locationParam = getParam("location");
+    const startDateParam = getParam("startDate");
+    const endDateParam = getParam("endDate");
+
+    return {
+      selectedTypes: typeParam?.split(",") ?? [],
+      selectedCategories: categoryParam?.split(",") ?? [],
+      selectedLocations: locationParam?.split(",") ?? [],
+      selectedDates:
+        startDateParam && endDateParam
+          ? {
+              from: new Date(startDateParam),
+              to: new Date(endDateParam),
+            }
+          : undefined,
+    };
+  }, [
+    getParam("type"),
+    getParam("category"),
+    getParam("location"),
+    getParam("startDate"),
+    getParam("endDate"),
+  ]);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -126,7 +136,7 @@ const EventFilters = () => {
       <DatePicker
         placeholder="Data"
         onChange={handleSelectDate}
-        value={selectedDate}
+        value={selectedDates}
       />
       <PriceFilter />
     </div>
