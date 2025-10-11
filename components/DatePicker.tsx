@@ -35,15 +35,18 @@ const DatePicker = ({ onChange, value, placeholder }: DatePickerProps) => {
               {value.from?.toLocaleDateString("pl-PL")} -{" "}
               {value.to?.toLocaleDateString("pl-PL")}
             </span>
-            <RiCloseLine
-              size={14}
-              className="border rounded-full"
+            <button
+              type="button"
+              title="Wyczyść daty"
+              className="cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 onChange(undefined);
                 setShowDatePicker(false);
               }}
-            />
+            >
+              <RiCloseLine size={14} className="border rounded-full" />
+            </button>
           </div>
         ) : (
           <span className="font-semibold">{placeholder}</span>
