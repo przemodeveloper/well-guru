@@ -4,25 +4,10 @@ import ProductList from "./ProductList";
 import { useEvents } from "@/queries/events";
 import InfiniteScroll from "react-infinite-scroll-component";
 import ProductListSkeleton from "./ProductsListSkeleton";
-import { useSearchParams } from "next/navigation";
+import { useFilters } from "@/hooks/useFilters";
 
 const EventsClient = () => {
-  const searchParams = useSearchParams();
-
-  const filters = [
-    "type",
-    "category",
-    "location",
-    "priceMin",
-    "priceMax",
-    "startDate",
-    "endDate",
-  ].reduce((acc, key) => {
-    const value = searchParams.get(key);
-    if (value) acc[key] = value;
-    return acc;
-  }, {} as Record<string, string>);
-
+  const { filters } = useFilters();
   const { fetchNextPage, hasNextPage, events, isLoading } = useEvents({
     filters,
   });
