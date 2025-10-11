@@ -7,7 +7,7 @@ import DatePicker from "./DatePicker";
 import { useFilters } from "@/hooks/useFilters";
 import { DateRange } from "react-day-picker";
 import { formatDate } from "@/utils/date";
-import { useMemo } from "react";
+import { useMemo, useRef, useState } from "react";
 
 const eventTypesOptions = [
   {
@@ -63,6 +63,17 @@ const eventCategoriesOptions = [
 const EventFilters = () => {
   const { setParams, getParam, deleteParams } = useFilters();
 
+  const typeParam = getParam("type");
+  const categoryParam = getParam("category");
+  const locationParam = getParam("location");
+  const startDateParam = getParam("startDate");
+  const endDateParam = getParam("endDate");
+
+  const [priceMin, setPriceMin] = useState(getParam("priceMin") ?? "");
+  const [priceMax, setPriceMax] = useState(getParam("priceMax") ?? "");
+
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
   const { data: locationOptions } = useLocationsDropdown();
 
   const handleSelectFilter = (filterType: string, options: Option[]) => {
@@ -81,18 +92,30 @@ const EventFilters = () => {
     }
   };
 
+  const handlePriceChange = (key: "priceMin" | "priceMax", value: string) => {
+    if (key === "priceMin") {
+      setPriceMin(value);
+    } else {
+      setPriceMax(value);
+    }
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      setParams({
+        [key]: value || null,
+      });
+    }, 500);
+  };
+
   const {
     selectedTypes,
     selectedCategories,
     selectedLocations,
     selectedDates,
   } = useMemo(() => {
-    const typeParam = getParam("type");
-    const categoryParam = getParam("category");
-    const locationParam = getParam("location");
-    const startDateParam = getParam("startDate");
-    const endDateParam = getParam("endDate");
-
     return {
       selectedTypes: typeParam?.split(",") ?? [],
       selectedCategories: categoryParam?.split(",") ?? [],
@@ -105,13 +128,7 @@ const EventFilters = () => {
             }
           : undefined,
     };
-  }, [
-    getParam("type"),
-    getParam("category"),
-    getParam("location"),
-    getParam("startDate"),
-    getParam("endDate"),
-  ]);
+  }, [typeParam, categoryParam, locationParam, startDateParam, endDateParam]);
 
   return (
     <div className="flex flex-wrap gap-4">
@@ -138,7 +155,10 @@ const EventFilters = () => {
         onChange={handleSelectDate}
         value={selectedDates}
       />
-      <PriceFilter />
+      <PriceFilter
+        onChange={handlePriceChange}
+        value={{ priceMin: priceMin, priceMax: priceMax }}
+      />
     </div>
   );
 };
