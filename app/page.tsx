@@ -1,7 +1,7 @@
-import Hero from "@/components/Hero";
-import Teaser from "@/components/Teaser";
-import Products from "@/components/Products";
-import NewsletterInvite from "@/components/NewsletterInvite";
+import Hero from "@/components/home/Hero";
+import Teaser from "@/components/home/Teaser";
+import Products from "@/components/events/Products";
+import NewsletterInvite from "@/components/home/NewsletterInvite";
 import { getEventsFromDB } from "@/utils/events";
 
 export default async function Home() {

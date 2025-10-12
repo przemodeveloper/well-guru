@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Inter } from "next/font/google";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import Provider from "@/providers/Provider";
-import NavbarWrapper from "@/components/NavbarWrapper";
+import NavbarWrapper from "@/components/layout/NavbarWrapper";
 
 export const metadata: Metadata = {
   title: "Well Guru",

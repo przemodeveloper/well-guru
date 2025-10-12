@@ -1,5 +1,5 @@
-import EventFilters from "@/components/EventFilters";
-import EventsClient from "@/components/EventsClient";
+import EventFilters from "@/components/events/filters/EventFilters";
+import EventsClient from "@/components/events/EventsClient";
 import { fetchEvents } from "@/queries/events";
 import {
   dehydrate,

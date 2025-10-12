@@ -1,6 +1,6 @@
 "use client";
 
-import MultiSelectDropdown, { type Option } from "./MultiSelectDropdown";
+import MultiSelectDropdown, { type Option } from "../../ui/MultiSelectDropdown";
 import { useLocationsDropdown } from "@/queries/dropdowns";
 import PriceFilter from "./PriceFilter";
 import DatePicker from "./DatePicker";

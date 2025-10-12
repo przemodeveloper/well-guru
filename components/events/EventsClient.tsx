@@ -3,7 +3,7 @@
 import ProductList from "./ProductList";
 import { useEvents } from "@/queries/events";
 import InfiniteScroll from "react-infinite-scroll-component";
-import ProductListSkeleton from "./ProductsListSkeleton";
+import ProductListSkeleton from "../ui/ProductsListSkeleton";
 import { useFilters } from "@/hooks/useFilters";
 
 const EventsClient = () => {
