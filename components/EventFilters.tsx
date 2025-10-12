@@ -9,6 +9,7 @@ import { DateRange } from "react-day-picker";
 import { formatDate } from "@/utils/date";
 import { useMemo, useRef, useState } from "react";
 import { categoryTypeLabels, eventTypeLabels } from "@/consts/events";
+import { RiCloseLine } from "@remixicon/react";
 
 const eventTypesOptions = [
   {
@@ -72,6 +73,7 @@ const EventFilters = () => {
 
   const [priceMin, setPriceMin] = useState(getParam("priceMin") ?? "");
   const [priceMax, setPriceMax] = useState(getParam("priceMax") ?? "");
+  const [searchTerm, setSearchTerm] = useState(getParam("search") ?? "");
 
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -111,6 +113,20 @@ const EventFilters = () => {
     }, 500);
   };
 
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      setParams({
+        search: value || null,
+      });
+    }, 500);
+  };
+
   const {
     selectedTypes,
     selectedCategories,
@@ -133,6 +149,30 @@ const EventFilters = () => {
 
   return (
     <div className="flex flex-wrap gap-4">
+      <div className="border border-2 border-gray-300 rounded flex-grow min-w-[200px] flex items-center">
+        <input
+          type="text"
+          name="search"
+          placeholder="Szukaj wydarzenia"
+          className="w-full h-full px-3"
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+        />
+        {searchTerm && (
+          <button
+            type="button"
+            title="Usuń cenę maksymalną"
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleSearch("");
+            }}
+          >
+            <RiCloseLine size={14} className="border rounded-full mr-3" />
+          </button>
+        )}
+      </div>
+
       <MultiSelectDropdown
         placeholder="Wszystkie typy"
         options={eventTypesOptions}

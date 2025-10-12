@@ -8,10 +8,22 @@ type FilterKey =
   | "priceMin"
   | "priceMax"
   | "startDate"
-  | "endDate";
+  | "endDate"
+  | "search";
+
+const FilterKeys = [
+  "type",
+  "category",
+  "location",
+  "priceMin",
+  "priceMax",
+  "startDate",
+  "endDate",
+  "search",
+] as const;
 
 interface UseFiltersOptions {
-  filterKeys?: FilterKey[];
+  filterKeys?: (keyof typeof FilterKeys)[];
   replace?: boolean;
 }
 
@@ -19,18 +31,7 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  const {
-    filterKeys = [
-      "type",
-      "category",
-      "location",
-      "priceMin",
-      "priceMax",
-      "startDate",
-      "endDate",
-    ],
-    replace = true,
-  } = options;
+  const { filterKeys = FilterKeys, replace = true } = options;
 
   const setParams = useCallback(
     (updates: Record<string, string | string[] | null>) => {
