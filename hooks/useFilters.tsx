@@ -9,7 +9,9 @@ type FilterKey =
   | "priceMax"
   | "startDate"
   | "endDate"
-  | "search";
+  | "search"
+  | "sortBy"
+  | "sortOrder";
 
 const FilterKeys = [
   "type",
@@ -20,6 +22,8 @@ const FilterKeys = [
   "startDate",
   "endDate",
   "search",
+  "sortBy",
+  "sortOrder",
 ] as const;
 
 interface UseFiltersOptions {
@@ -41,6 +45,8 @@ export const useFilters = (options: UseFiltersOptions = {}) => {
       "startDate",
       "endDate",
       "search",
+      "sortBy",
+      "sortOrder",
     ],
     replace = true,
   } = options;

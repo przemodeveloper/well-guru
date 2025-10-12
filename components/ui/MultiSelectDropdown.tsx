@@ -80,7 +80,7 @@ const MultiSelectDropdown = ({
   }, [value, options]);
 
   return (
-    <div className="relative min-w-[250px]" ref={dropdownRef}>
+    <div className="relative min-w-[220px]" ref={dropdownRef}>
       {/* Dropdown trigger */}
       <div
         className="w-full text-left px-3 py-2 border border-2 border-gray-300 rounded-lg bg-white cursor-pointer hover:border-gray-400 focus:border-black focus:ring-black"

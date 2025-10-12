@@ -32,7 +32,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
   return (
     <div className="flex items-center">
       <span className="mr-3 font-semibold">Cena</span>
-      <div className="border border-2 border-gray-300 w-32 h-full rounded flex items-center mr-2">
+      <div className="border border-2 border-gray-300 w-24 h-full rounded flex items-center mr-2">
         <input
           type="number"
           placeholder="Od"
@@ -62,7 +62,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
         )}
       </div>
 
-      <div className="border border-2 border-gray-300 w-32 h-full rounded flex items-center">
+      <div className="border border-2 border-gray-300 w-24 h-full rounded flex items-center">
         <input
           type="number"
           placeholder="Do"

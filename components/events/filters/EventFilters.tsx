@@ -10,6 +10,7 @@ import { formatDate } from "@/utils/date";
 import { useMemo } from "react";
 import { categoryTypeLabels, eventTypeLabels } from "@/consts/events";
 import SearchField from "@/components/ui/SearchField";
+import SortDropdown, { Order, SortBy } from "./SortDropdown";
 
 const eventTypesOptions = [
   {
@@ -73,6 +74,8 @@ const EventFilters = () => {
   const searchTermParam = getParam("search") ?? "";
   const priceMinParam = getParam("priceMin") ?? "";
   const priceMaxParam = getParam("priceMax") ?? "";
+  const sortByParam = (getParam("sortBy") ?? "startDate") as SortBy;
+  const sortOrderParam = (getParam("sortOrder") ?? "asc") as Order;
 
   const { data: locationOptions } = useLocationsDropdown();
 
@@ -100,13 +103,25 @@ const EventFilters = () => {
     setParams({ search: value || null });
   };
 
+  const handleSortChange = (sortBy: string) => {
+    setParams({ sortBy });
+  };
+
+  const handleSortOrderChange = (sortOrder: "asc" | "desc") => {
+    setParams({ sortOrder });
+  };
+
   const {
     selectedTypes,
     selectedCategories,
     selectedLocations,
     selectedDates,
+    selectedSortBy,
+    selectedSortOrder,
   } = useMemo(() => {
     return {
+      selectedSortBy: sortByParam,
+      selectedSortOrder: sortOrderParam,
       selectedTypes: typeParam?.split(",") ?? [],
       selectedCategories: categoryParam?.split(",") ?? [],
       selectedLocations: locationParam?.split(",") ?? [],
@@ -118,10 +133,26 @@ const EventFilters = () => {
             }
           : undefined,
     };
-  }, [typeParam, categoryParam, locationParam, startDateParam, endDateParam]);
+  }, [
+    typeParam,
+    categoryParam,
+    locationParam,
+    startDateParam,
+    endDateParam,
+    sortByParam,
+    sortOrderParam,
+  ]);
 
   return (
     <div className="flex flex-wrap gap-4">
+      <SortDropdown
+        value={{
+          sortBy: selectedSortBy,
+          sortOrder: selectedSortOrder,
+        }}
+        onChangeSort={handleSortChange}
+        onChangeOrder={handleSortOrderChange}
+      />
       <SearchField
         searchTerm={searchTermParam}
         onSearch={handleSearch}
