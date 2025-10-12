@@ -56,6 +56,7 @@ const DatePicker = ({ onChange, value, placeholder }: DatePickerProps) => {
         <div className="absolute top-full mt-2 z-10 border-2 border-gray-300 rounded-lg p-4 bg-white shadow-lg w-max sm:w-auto">
           <DayPicker
             mode="range"
+            disabled={{ before: new Date() }}
             classNames={{
               chevron: "text-black",
               range_start: "bg-black",

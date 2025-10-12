@@ -4,7 +4,7 @@ import { serializeBigInt } from "@/utils/serialize";
 import { Decimal } from "@prisma/client/runtime/library";
 import type { Prisma } from "@prisma/client";
 
-export async function GET(req: Request) {
+export async function GET(req: Request): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(req.url);
 
@@ -19,7 +19,10 @@ export async function GET(req: Request) {
     const entity = searchParams.get("entity") || "";
     const priceMin = searchParams.get("priceMin") || "";
     const priceMax = searchParams.get("priceMax") || "";
+    const sortBy = searchParams.get("sortBy") || "startDate";
+    const sortOrder = searchParams.get("sortOrder") || "asc";
 
+    const now = new Date();
     const where: Prisma.EventWhereInput = {};
 
     if (category) {
@@ -38,17 +41,14 @@ export async function GET(req: Request) {
       where.name = { contains: search, mode: "insensitive" };
     }
 
-    if (startDate) {
-      where.startDate = {
-        ...(startDate && { gte: new Date(startDate) }),
-      };
-    }
+    where.startDate = {
+      gte: startDate ? new Date(startDate) : now,
+    };
 
-    if (endDate) {
-      where.endDate = {
-        ...(endDate && { lte: new Date(endDate) }),
-      };
-    }
+    where.endDate = {
+      gte: now,
+      ...(endDate && { lte: new Date(endDate) }),
+    };
 
     if (priceMin || priceMax) {
       where.price = {
@@ -63,6 +63,7 @@ export async function GET(req: Request) {
       where,
       skip: (page - 1) * pageSize,
       take: pageSize,
+      orderBy: { [sortBy]: sortOrder },
     });
 
     return NextResponse.json(
