@@ -7,7 +7,7 @@ import DatePicker from "./DatePicker";
 import { useFilters } from "@/hooks/useFilters";
 import { DateRange } from "react-day-picker";
 import { formatDate } from "@/utils/date";
-import { useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 import { categoryTypeLabels, eventTypeLabels } from "@/consts/events";
 import SearchField from "@/components/ui/SearchField";
 
@@ -71,11 +71,8 @@ const EventFilters = () => {
   const startDateParam = getParam("startDate");
   const endDateParam = getParam("endDate");
   const searchTermParam = getParam("search") ?? "";
-
-  const [priceMin, setPriceMin] = useState(getParam("priceMin") ?? "");
-  const [priceMax, setPriceMax] = useState(getParam("priceMax") ?? "");
-
-  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+  const priceMinParam = getParam("priceMin") ?? "";
+  const priceMaxParam = getParam("priceMax") ?? "";
 
   const { data: locationOptions } = useLocationsDropdown();
 
@@ -96,21 +93,7 @@ const EventFilters = () => {
   };
 
   const handlePriceChange = (key: "priceMin" | "priceMax", value: string) => {
-    if (key === "priceMin") {
-      setPriceMin(value);
-    } else {
-      setPriceMax(value);
-    }
-
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-    }
-
-    debounceRef.current = setTimeout(() => {
-      setParams({
-        [key]: value || null,
-      });
-    }, 500);
+    setParams({ [key]: value || null });
   };
 
   const handleSearch = (value: string) => {
@@ -169,7 +152,7 @@ const EventFilters = () => {
       />
       <PriceFilter
         onChange={handlePriceChange}
-        value={{ priceMin: priceMin, priceMax: priceMax }}
+        value={{ priceMin: priceMinParam, priceMax: priceMaxParam }}
       />
     </div>
   );

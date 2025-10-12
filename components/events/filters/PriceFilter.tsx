@@ -1,5 +1,6 @@
 import { RiCloseLine } from "@remixicon/react";
 import clsx from "clsx";
+import { useRef, useState } from "react";
 
 interface PriceFilterProps {
   onChange: (key: "priceMin" | "priceMax", value: string) => void;
@@ -7,6 +8,27 @@ interface PriceFilterProps {
 }
 
 const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
+  const [priceMin, setPriceMin] = useState(value?.priceMin ?? "");
+  const [priceMax, setPriceMax] = useState(value?.priceMax ?? "");
+
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handlePriceChange = (key: "priceMin" | "priceMax", value: string) => {
+    if (key === "priceMin") {
+      setPriceMin(value);
+    } else {
+      setPriceMax(value);
+    }
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    debounceRef.current = setTimeout(() => {
+      onChange(key, value || "");
+    }, 500);
+  };
+
   return (
     <div className="flex items-center">
       <span className="mr-3 font-semibold">Cena</span>
@@ -17,9 +39,12 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           className="w-full"
           aria-label="Cena minimalna"
           min={0}
-          value={value?.priceMin ?? ""}
+          value={priceMin}
           onChange={(e) =>
-            onChange("priceMin", Math.max(0, Number(e.target.value)).toString())
+            handlePriceChange(
+              "priceMin",
+              Math.max(0, Number(e.target.value)).toString()
+            )
           }
         />
         <button
@@ -28,7 +53,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           className={clsx("cursor-pointer", !value?.priceMin && "hidden")}
           onClick={(e) => {
             e.stopPropagation();
-            onChange("priceMin", "");
+            handlePriceChange("priceMin", "");
           }}
         >
           <RiCloseLine size={14} className="border rounded-full" />
@@ -41,9 +66,12 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           placeholder="Do"
           className="w-full"
           aria-label="Cena maksymalna"
-          value={value?.priceMax ?? ""}
+          value={priceMax}
           onChange={(e) =>
-            onChange("priceMax", Math.max(0, Number(e.target.value)).toString())
+            handlePriceChange(
+              "priceMax",
+              Math.max(0, Number(e.target.value)).toString()
+            )
           }
         />
         <button
@@ -52,7 +80,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           className={clsx("cursor-pointer", !value?.priceMax && "hidden")}
           onClick={(e) => {
             e.stopPropagation();
-            onChange("priceMax", "");
+            handlePriceChange("priceMax", "");
           }}
         >
           <RiCloseLine size={14} className="border rounded-full" />
