@@ -70,10 +70,10 @@ const EventFilters = () => {
   const locationParam = getParam("location");
   const startDateParam = getParam("startDate");
   const endDateParam = getParam("endDate");
+  const searchTermParam = getParam("search") ?? "";
 
   const [priceMin, setPriceMin] = useState(getParam("priceMin") ?? "");
   const [priceMax, setPriceMax] = useState(getParam("priceMax") ?? "");
-  const [searchTerm, setSearchTerm] = useState(getParam("search") ?? "");
 
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -140,11 +140,10 @@ const EventFilters = () => {
   return (
     <div className="flex flex-wrap gap-4">
       <SearchField
-        searchTerm={searchTerm}
+        searchTerm={searchTermParam}
         onSearch={handleSearch}
         placeholder="Szukaj wydarzenia"
       />
-
       <MultiSelectDropdown
         placeholder="Wszystkie typy"
         options={eventTypesOptions}
