@@ -8,21 +8,22 @@ import { useFilters } from "@/hooks/useFilters";
 import { DateRange } from "react-day-picker";
 import { formatDate } from "@/utils/date";
 import { useMemo, useRef, useState } from "react";
+import { categoryTypeLabels, eventTypeLabels } from "@/consts/events";
 
 const eventTypesOptions = [
   {
     id: 1,
-    label: "Event",
+    label: eventTypeLabels.event,
     value: "event",
   },
   {
     id: 2,
-    label: "Workshop",
+    label: eventTypeLabels.workshop,
     value: "workshop",
   },
   {
     id: 3,
-    label: "Retreat",
+    label: eventTypeLabels.retreat,
     value: "retreat",
   },
 ];
@@ -30,32 +31,32 @@ const eventTypesOptions = [
 const eventCategoriesOptions = [
   {
     id: 1,
-    label: "Sztuka",
+    label: categoryTypeLabels.art,
     value: "art",
   },
   {
     id: 2,
-    label: "Muzyka",
+    label: categoryTypeLabels.music,
     value: "music",
   },
   {
     id: 3,
-    label: "Rozwój osobisty",
+    label: categoryTypeLabels.selfDevelopment,
     value: "selfDevelopment",
   },
   {
     id: 4,
-    label: "Relacje",
+    label: categoryTypeLabels.relationships,
     value: "relationships",
   },
   {
     id: 5,
-    label: "Yoga",
+    label: categoryTypeLabels.yoga,
     value: "yoga",
   },
   {
     id: 6,
-    label: "Surfing",
+    label: categoryTypeLabels.surfing,
     value: "surfing",
   },
 ];
