@@ -32,7 +32,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
   return (
     <div className="flex items-center">
       <span className="mr-3 font-semibold">Cena</span>
-      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2 mr-2">
+      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2 mr-2  hover:border-gray-400 focus:border-black focus:ring-black">
         <input
           type="number"
           placeholder="Od"
@@ -47,20 +47,22 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
             )
           }
         />
-        <button
-          type="button"
-          title="Usuń cenę minimalną"
-          className={clsx("cursor-pointer", !value?.priceMin && "hidden")}
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePriceChange("priceMin", "");
-          }}
-        >
-          <RiCloseLine size={14} className="border rounded-full" />
-        </button>
+        {value?.priceMin && (
+          <button
+            type="button"
+            title="Usuń cenę minimalną"
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePriceChange("priceMin", "");
+            }}
+          >
+            <RiCloseLine size={14} className="border rounded-full" />
+          </button>
+        )}
       </div>
 
-      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2">
+      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2 hover:border-gray-400 focus:border-black focus:ring-black">
         <input
           type="number"
           placeholder="Do"
@@ -74,17 +76,19 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
             )
           }
         />
-        <button
-          type="button"
-          title="Usuń cenę maksymalną"
-          className={clsx("cursor-pointer", !value?.priceMax && "hidden")}
-          onClick={(e) => {
-            e.stopPropagation();
-            handlePriceChange("priceMax", "");
-          }}
-        >
-          <RiCloseLine size={14} className="border rounded-full" />
-        </button>
+        {value?.priceMax && (
+          <button
+            type="button"
+            title="Usuń cenę maksymalną"
+            className="cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePriceChange("priceMax", "");
+            }}
+          >
+            <RiCloseLine size={14} className="border rounded-full" />
+          </button>
+        )}
       </div>
     </div>
   );

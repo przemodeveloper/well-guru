@@ -28,7 +28,7 @@ const SearchField = ({
   };
 
   return (
-    <div className="border border-2 border-gray-300 rounded flex-grow min-w-[200px] flex items-center">
+    <div className="border border-2 border-gray-300 rounded flex-grow min-w-[200px] flex items-center  hover:border-gray-400 focus:border-black focus:ring-black">
       <input
         type="text"
         name="search"
