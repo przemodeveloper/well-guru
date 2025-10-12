@@ -1,5 +1,6 @@
 import { RiArrowDownSLine } from "@remixicon/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 
 export type Order = "asc" | "desc";
 export type SortBy = "name" | "price" | "startDate";
@@ -25,9 +26,14 @@ const sortByOptions: { label: string; value: SortBy }[] = [
 
 const SortDropdown = ({ onChangeSort, onChangeOrder, value }: SortDropdown) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(dropdownRef as React.RefObject<HTMLElement>, () =>
+    setIsOpen(false)
+  );
 
   return (
-    <div className="relative min-w-[220px]">
+    <div className="relative min-w-[220px]" ref={dropdownRef}>
       <div
         className="text-left px-3 py-2 border border-2 border-gray-300 rounded-lg bg-white cursor-pointer hover:border-gray-400 focus:border-black focus:ring-black"
         onClick={() => setIsOpen(!isOpen)}
