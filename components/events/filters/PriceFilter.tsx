@@ -32,11 +32,11 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
   return (
     <div className="flex items-center">
       <span className="mr-3 font-semibold">Cena</span>
-      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2 mr-2  hover:border-gray-400 focus:border-black focus:ring-black">
+      <div className="border border-2 border-gray-300 w-32 h-full rounded flex items-center mr-2">
         <input
           type="number"
           placeholder="Od"
-          className="w-full"
+          className="w-full h-full p-2"
           aria-label="Cena minimalna"
           min={0}
           value={priceMin}
@@ -51,7 +51,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           <button
             type="button"
             title="Usuń cenę minimalną"
-            className="cursor-pointer"
+            className="cursor-pointer mr-2"
             onClick={(e) => {
               e.stopPropagation();
               handlePriceChange("priceMin", "");
@@ -62,11 +62,11 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
         )}
       </div>
 
-      <div className="border border-2 border-gray-300 p-2 rounded w-24 flex items-center gap-2 hover:border-gray-400 focus:border-black focus:ring-black">
+      <div className="border border-2 border-gray-300 w-32 h-full rounded flex items-center">
         <input
           type="number"
           placeholder="Do"
-          className="w-full"
+          className="w-full h-full p-2"
           aria-label="Cena maksymalna"
           value={priceMax}
           onChange={(e) =>
@@ -80,7 +80,7 @@ const PriceFilter = ({ onChange, value }: PriceFilterProps) => {
           <button
             type="button"
             title="Usuń cenę maksymalną"
-            className="cursor-pointer"
+            className="cursor-pointer mr-2"
             onClick={(e) => {
               e.stopPropagation();
               handlePriceChange("priceMax", "");
